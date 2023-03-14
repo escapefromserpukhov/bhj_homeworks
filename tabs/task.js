@@ -1,23 +1,31 @@
-let counter = 0;
-let tabActive = 0;
-let tabContentActive = 0;
-const menu = document.body.querySelectorAll(".tab");
-for (let i = 0; i < menu.length; i++) {
-    menu[i].addEventListener("click", function () {
-        this.classList.add("tab_active");
-        const content = document.body.querySelectorAll('.tab__content');
-        if (counter >= 1) {
-            tabActive.remove("tab_active");
-            tabContentActive.remove("tab__content_active");
-            if (counter > 3) {
-                counter = 0;
-                tabContentActive = 0;
-            }
+let menu = document.querySelector("div.tab__navigation");
+let tabList = Array.from(document.querySelectorAll("div.tab"));
+let contentList = Array.from(document.querySelectorAll("div.tab__content"));
 
-        }
-        content[i].classList.add('tab__content_active');
-        tabContentActive = content[i].classList;
-        tabActive = this.classList;
-        counter += 1;
-    })
+function activeNav(e) {
+  for (let item of tabList) {
+    item.onclick = function () {
+      checkActive();
+      itemIndex = tabList.indexOf(item);
+      item.classList.add("tab_active");
+      contentList[itemIndex].classList.add("tab__content_active");
+      return false;
+    };
+  }
 }
+
+function checkActive() {
+  for (let item of tabList) {
+    if (item.classList.contains("tab_active")) {
+      item.classList.remove("tab_active");
+    }
+  }
+
+  for (let item of contentList) {
+    if (item.classList.contains("tab__content_active")) {
+      item.classList.remove("tab__content_active");
+    }
+  }
+}
+
+menu.addEventListener("click", activeNav);
